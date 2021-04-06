@@ -1,6 +1,7 @@
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -41,6 +42,15 @@ public class WebCrawler {
         return countWordsInString(websiteText);
     }
 
+    private static int countLinksOnWebsite(String websiteUrl) {
+
+        Document document = connectToWebsite(websiteUrl);
+
+        Elements links = document.select("a[href]");
+
+        return links.size();
+    }
+
     public static void main(String[] args) {
 
         System.out.print("Bitte geben Sie die URL der Website ein: ");
@@ -49,6 +59,6 @@ public class WebCrawler {
 
         String websiteUrl = urlInput.nextLine();
 
-        System.out.println("Die Website enthält " + countWordsOnWebsite(websiteUrl) + " Wörter.");
+        System.out.println("Die Website enthält " + countWordsOnWebsite(websiteUrl) + " Wörter, " + countLinksOnWebsite(websiteUrl) + " Links.");
     }
 }
