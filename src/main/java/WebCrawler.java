@@ -3,7 +3,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class WebCrawler {
@@ -15,7 +14,7 @@ public class WebCrawler {
             Document document = Jsoup.connect(websiteUrl).get();
             return document;
 
-        } catch (IOException e) {
+        } catch (Exception e) {
 
             System.out.println(e.getMessage());
             return null;
@@ -36,6 +35,9 @@ public class WebCrawler {
 
         Document document = connectToWebsite(websiteUrl);
 
+        if(document == null)
+            return 0;
+
         Element websiteBody = document.body();
         String websiteText = websiteBody.text();
 
@@ -46,6 +48,9 @@ public class WebCrawler {
 
         Document document = connectToWebsite(websiteUrl);
 
+        if(document == null)
+            return 0;
+
         Elements links = document.select("a[href]");
 
         return links.size();
@@ -55,6 +60,9 @@ public class WebCrawler {
 
         Document document = connectToWebsite(websiteUrl);
 
+        if(document == null)
+            return 0;
+
         Elements images = document.getElementsByTag("img");
 
         return images.size();
@@ -63,6 +71,9 @@ public class WebCrawler {
     private static int countVideosOnWebsite(String websiteUrl){
 
         Document document = connectToWebsite(websiteUrl);
+
+        if(document == null)
+            return 0;
 
         Elements videos = document.getElementsByTag("video");
 
