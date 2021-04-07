@@ -51,6 +51,24 @@ public class WebCrawler {
         return links.size();
     }
 
+    private static int countImagesOnWebsite(String websiteUrl){
+
+        Document document = connectToWebsite(websiteUrl);
+
+        Elements images = document.getElementsByTag("img");
+
+        return images.size();
+    }
+
+    private static int countVideosOnWebsite(String websiteUrl){
+
+        Document document = connectToWebsite(websiteUrl);
+
+        Elements videos = document.getElementsByTag("video");
+
+        return videos.size();
+    }
+
     public static void main(String[] args) {
 
         System.out.print("Bitte geben Sie die URL der Website ein: ");
@@ -59,6 +77,6 @@ public class WebCrawler {
 
         String websiteUrl = urlInput.nextLine();
 
-        System.out.println("Die Website enthält " + countWordsOnWebsite(websiteUrl) + " Wörter, " + countLinksOnWebsite(websiteUrl) + " Links.");
+        System.out.println("Die Website enthält " + countWordsOnWebsite(websiteUrl) + " Wörter, " + countLinksOnWebsite(websiteUrl) + " Links, " + countImagesOnWebsite(websiteUrl) + " Bilder und " + countVideosOnWebsite(websiteUrl) + " Videos.");
     }
 }
