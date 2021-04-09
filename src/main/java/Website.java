@@ -51,10 +51,18 @@ public class Website {
         if(document == null)
             return 0;
 
-        Element websiteBody = document.body();
-        String websiteText = websiteBody.text();
+        try{
 
-        return countWordsInString(websiteText);
+            Element websiteBody = document.body();
+            String websiteText = websiteBody.text();
+
+            return countWordsInString(websiteText);
+        }
+
+        catch (Exception e){
+
+            return 0;
+        }
     }
 
     private int countLinksOnWebsite() {
