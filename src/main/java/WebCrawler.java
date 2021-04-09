@@ -1,84 +1,6 @@
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import java.util.Scanner;
 
 public class WebCrawler {
-
-    private static Document connectToWebsite(String websiteUrl){
-
-        try {
-
-            Document document = Jsoup.connect(websiteUrl).get();
-            return document;
-
-        } catch (Exception e) {
-
-            System.out.println(e.getMessage());
-            return null;
-        }
-    }
-
-    private static int countWordsInString(String string) {
-
-        if(string == null || string.isEmpty())
-            return 0;
-
-        String[] words = string.split("\\s+");
-
-        return words.length;
-    }
-
-    private static int countWordsOnWebsite(String websiteUrl) {
-
-        Document document = connectToWebsite(websiteUrl);
-
-        if(document == null)
-            return 0;
-
-        Element websiteBody = document.body();
-        String websiteText = websiteBody.text();
-
-        return countWordsInString(websiteText);
-    }
-
-    private static int countLinksOnWebsite(String websiteUrl) {
-
-        Document document = connectToWebsite(websiteUrl);
-
-        if(document == null)
-            return 0;
-
-        Elements links = document.select("a[href]");
-
-        return links.size();
-    }
-
-    private static int countImagesOnWebsite(String websiteUrl){
-
-        Document document = connectToWebsite(websiteUrl);
-
-        if(document == null)
-            return 0;
-
-        Elements images = document.getElementsByTag("img");
-
-        return images.size();
-    }
-
-    private static int countVideosOnWebsite(String websiteUrl){
-
-        Document document = connectToWebsite(websiteUrl);
-
-        if(document == null)
-            return 0;
-
-        Elements videos = document.getElementsByTag("video");
-
-        return videos.size();
-    }
 
     public static void main(String[] args) {
 
@@ -88,6 +10,8 @@ public class WebCrawler {
 
         String websiteUrl = urlInput.nextLine();
 
-        System.out.println("Die Website enthält " + countWordsOnWebsite(websiteUrl) + " Wörter, " + countLinksOnWebsite(websiteUrl) + " Links, " + countImagesOnWebsite(websiteUrl) + " Bilder und " + countVideosOnWebsite(websiteUrl) + " Videos.");
+        urlInput.close();
+
+        new Website(websiteUrl);
     }
 }
