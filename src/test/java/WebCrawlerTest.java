@@ -17,12 +17,14 @@ import static org.mockito.Mockito.*;
 public class WebCrawlerTest {
     Document document;
     WebCrawler webCrawler;
-    Connection connection = mock(Connection.class);;
+    Connection connection = mock(Connection.class);
+    ;
     MockedStatic<Jsoup> jsoupMocked;
 
-    public void initJsoupStaticMock(){
-        jsoupMocked = Mockito.mockStatic(Jsoup.class);;
-        jsoupMocked.when(() -> Jsoup.connect("https://www.htl-villach.at/schule/anmeldung")).thenReturn(connection);
+    public void initJsoupStaticMock() {
+        jsoupMocked = Mockito.mockStatic(Jsoup.class);
+        ;
+        jsoupMocked.when(() -> Jsoup.connect(Matchers.anyString())).thenReturn(connection);
     }
 
     public void initDocument() throws IOException {
@@ -39,15 +41,16 @@ public class WebCrawlerTest {
         initDocument();
         initJsoupStaticMock();
         initConnection();
+        WebCrawler.resetVisitedWebsites();
         webCrawler = new WebCrawler("https://www.htl-villach.at/schule/anmeldung");
         webCrawler.connectToWebsite();
     }
 
     @AfterEach
-    public void tearDown(){
-        if(!jsoupMocked.isClosed())jsoupMocked.close();
-        jsoupMocked=null;
-        document=null;
+    public void tearDown() {
+        if (!jsoupMocked.isClosed()) jsoupMocked.close();
+        jsoupMocked = null;
+        document = null;
         Mockito.reset(connection);
     }
 
@@ -63,48 +66,56 @@ public class WebCrawlerTest {
     }
 
     @Test
-    public void wordCount(){
-        jsoupMocked.close();
+    public void wordCount() {
         Assertions.assertEquals(709, webCrawler.countWordsOnWebsite());
     }
 
     @Test
-    public void urlsFoundOnWebsite(){
+    public void urlsFoundOnWebsite() {
         webCrawler.scrapeURLSFromWebsite();
         Assertions.assertEquals(58, webCrawler.getUrlsOnWebsite().size());
     }
 
     @Test
-    public void crawlWithRecursionDepthLessThan0(){
-        jsoupMocked.close();
+    public void crawlWithRecursionDepthLessThan0() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         webCrawler.crawlWebsite(-1);
-        Assertions.assertEquals(0,outContent.size());
+        Assertions.assertEquals(0, outContent.size());
     }
 
 
     @Test
     public void cannotConnectToWebsite() throws IOException {
         webCrawler = new WebCrawler("https://www.htl-villach.at/schule/anmeldung");
+        Mockito.reset(connection);
         when(connection.get()).thenThrow(new IOException());
         Assertions.assertFalse(webCrawler.connectToWebsite());
-        verify(connection, times(2)).get();
+        verify(connection, times(1)).get();
+
     }
 
     @Test
-    public void visitedWebsitesWithRecursionDepth0(){
-        jsoupMocked.close();
+    public void visitedWebsitesWithRecursionDepth0() {
         WebCrawler.resetVisitedWebsites();
         webCrawler = new WebCrawler("https://www.htl-villach.at/schule/anmeldung");
         webCrawler.crawlWebsite(0);
-        Assertions.assertEquals(1,WebCrawler.getVisitedWebsites().size());
+        Assertions.assertEquals(1, WebCrawler.getVisitedWebsites().size());
+    }
+
+    //Falsch
+    @Test
+    public void visitedWebsiteWithRecursionDepth1() {
+        webCrawler = new WebCrawler("https://www.htl-villach.at/schule/anmeldung");
+        webCrawler.crawlWebsite(1);
+        Assertions.assertEquals(5, WebCrawler.getVisitedWebsites().size());
     }
 
 
     @Test
     public void crawlBrokenLink() throws IOException {
         webCrawler = new WebCrawler("https://www.htl-villach.at/schule/anmeldung");
+        Mockito.reset(connection);
         when(connection.get()).thenThrow(new IOException("HTTP error fetching URL"));
 
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -113,10 +124,11 @@ public class WebCrawlerTest {
         webCrawler.crawlWebsite(2);
 
         Assertions.assertEquals(expectedOutput, outContent.toString());
+        verify(connection, times(1)).get();
     }
 
     @Test
-    public void correctOutputAfterCrawling(){
+    public void correctOutputWithRecursionDepth0() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         String expectedOutput =
@@ -125,9 +137,10 @@ public class WebCrawlerTest {
                         + "709 Wörter, 58 Links, 4 Bilder und 0 Videos.\r\n"
                         + "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\r\n";
 
-        jsoupMocked.close();
         webCrawler.crawlWebsite(0);
 
         Assertions.assertEquals(expectedOutput, outContent.toString());
     }
 }
+
+

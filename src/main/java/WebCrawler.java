@@ -30,7 +30,7 @@ public class WebCrawler {
     }
 
     public int countWordsOnWebsite() {
-        String[] wordsOnWebsite = Jsoup.parse(document.outerHtml()).text().split(" ");
+        String[] wordsOnWebsite = document.text().split(" ");
         return wordsOnWebsite.length;
     }
 
