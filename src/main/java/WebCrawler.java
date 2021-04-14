@@ -61,13 +61,14 @@ public class WebCrawler {
     public void crawlWebsite(int recursionDepth) {
         if (recursionDepth < 0) return;
         if (!connectToWebsite()) {
-            System.out.println("Verbindung zu dieser URL nicht möglich: " + websiteUrl + " -> " + connectionMessage + "\n");
+            System.out.print("Verbindung zu dieser URL nicht möglich: " + websiteUrl + " -> " + connectionMessage + "\n");
             return;
         }
         scrapeURLSFromWebsite();
         printInformationAboutWebsite();
+
         for (String link : urlsOnWebsite) {
-            if (!visitedWebsites.contains(link)) {
+            if (!visitedWebsites.contains(link) && recursionDepth > 0) {
                 new WebCrawler(link).crawlWebsite(recursionDepth - 1);
             }
         }
@@ -79,5 +80,9 @@ public class WebCrawler {
 
     public static HashSet<String> getVisitedWebsites() {
         return visitedWebsites;
+    }
+
+    public static void resetVisitedWebsites(){
+        visitedWebsites = new HashSet<>();
     }
 }
