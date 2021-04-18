@@ -1,3 +1,5 @@
+package at.aau.webcrawler;
+
 import java.util.Scanner;
 
 public class Main {
@@ -13,6 +15,7 @@ public class Main {
         urlInput.close();
 
         WebCrawler webCrawler = new WebCrawler(websiteUrl);
-        webCrawler.crawlWebsite(2);
+        webCrawler.crawlWebsite(1);
+
     }
 }

@@ -1,3 +1,6 @@
+package at.aau.webcrawler;
+
+import at.aau.webcrawler.WebCrawler;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,17 +21,17 @@ public class WebCrawlerTest {
     Document document;
     WebCrawler webCrawler;
     Connection connection = mock(Connection.class);
-    ;
+
     MockedStatic<Jsoup> jsoupMocked;
 
     public void initJsoupStaticMock() {
         jsoupMocked = Mockito.mockStatic(Jsoup.class);
-        ;
+
         jsoupMocked.when(() -> Jsoup.connect(Matchers.anyString())).thenReturn(connection);
     }
 
     public void initDocument() throws IOException {
-        File input = new File("src/test/java/TestDoc.html");
+        File input = new File("src/test/java/at/aau/webcrawler/TestDoc.html");
         document = Jsoup.parse(input, "UTF-8", "");
     }
 
@@ -48,7 +51,7 @@ public class WebCrawlerTest {
 
     @AfterEach
     public void tearDown() {
-        if (!jsoupMocked.isClosed()) jsoupMocked.close();
+        jsoupMocked.close();
         jsoupMocked = null;
         document = null;
         Mockito.reset(connection);
@@ -61,8 +64,7 @@ public class WebCrawlerTest {
 
     @Test
     public void videoCount() {
-        //countVideos funktioniert noch nicht richtig
-        //Assertions.assertEquals(-, webCrawler.countVideosOnWebsite());
+        Assertions.assertEquals(1, webCrawler.countVideosOnWebsite());
     }
 
     @Test
@@ -97,18 +99,9 @@ public class WebCrawlerTest {
 
     @Test
     public void visitedWebsitesWithRecursionDepth0() {
-        WebCrawler.resetVisitedWebsites();
         webCrawler = new WebCrawler("https://www.htl-villach.at/schule/anmeldung");
         webCrawler.crawlWebsite(0);
         Assertions.assertEquals(1, WebCrawler.getVisitedWebsites().size());
-    }
-
-    //Falsch
-    @Test
-    public void visitedWebsiteWithRecursionDepth1() {
-        webCrawler = new WebCrawler("https://www.htl-villach.at/schule/anmeldung");
-        webCrawler.crawlWebsite(1);
-        Assertions.assertEquals(5, WebCrawler.getVisitedWebsites().size());
     }
 
 
@@ -134,12 +127,18 @@ public class WebCrawlerTest {
         String expectedOutput =
                 "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\r\n"
                         + "Die Website [https://www.htl-villach.at/schule/anmeldung] enthält:\r\n"
-                        + "709 Wörter, 58 Links, 4 Bilder und 0 Videos.\r\n"
+                        + "709 Wörter, 58 Links, 4 Bilder und 1 Videos.\r\n"
                         + "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\r\n";
 
         webCrawler.crawlWebsite(0);
 
         Assertions.assertEquals(expectedOutput, outContent.toString());
+    }
+    @Test
+    public void crawlingWithDepth1(){
+        webCrawler = new WebCrawler("https://www.htl-villach.at/schule/anmeldung");
+        webCrawler.crawlWebsite(1);
+        Assertions.assertEquals(5,WebCrawler.getVisitedWebsites().size());
     }
 }
 

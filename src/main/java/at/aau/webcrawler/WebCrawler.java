@@ -1,3 +1,5 @@
+package at.aau.webcrawler;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,7 +19,6 @@ public class WebCrawler {
     WebCrawler(String websiteUrl){
         this.websiteUrl = websiteUrl;
         urlsOnWebsite = new ArrayList<>();
-        visitedWebsites.add(websiteUrl);
     }
 
     public boolean connectToWebsite(){
@@ -26,6 +27,7 @@ public class WebCrawler {
         } catch (Exception e) {
             connectionMessage = e.getMessage();
         }
+        visitedWebsites.add(websiteUrl);
         return document != null;
     }
 
@@ -40,7 +42,7 @@ public class WebCrawler {
     }
 
     public int countVideosOnWebsite(){
-        Elements videos = document.getElementsByTag("video");
+        Elements videos = document.select("[type^=video], .video, video");
         return videos.size();
     }
 
@@ -68,7 +70,7 @@ public class WebCrawler {
         printInformationAboutWebsite();
 
         for (String link : urlsOnWebsite) {
-            if (!visitedWebsites.contains(link) && recursionDepth > 0) {
+            if (!visitedWebsites.contains(link)&& recursionDepth>0) {
                 new WebCrawler(link).crawlWebsite(recursionDepth - 1);
             }
         }
