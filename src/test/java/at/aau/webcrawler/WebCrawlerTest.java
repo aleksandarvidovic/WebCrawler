@@ -32,7 +32,7 @@ public class WebCrawlerTest {
 
     public void initDocument() throws IOException {
         File input = new File("src/test/java/at/aau/webcrawler/TestDoc.html");
-        document = Jsoup.parse(input, "UTF-8", "");
+        document = Jsoup.parse(input, "UTF-8", "https://www.htl-villach.at/");
     }
 
     public void initConnection() throws IOException {
@@ -138,7 +138,7 @@ public class WebCrawlerTest {
     public void crawlingWithDepth1(){
         webCrawler = new WebCrawler("https://www.htl-villach.at/schule/anmeldung");
         webCrawler.crawlWebsite(1);
-        Assertions.assertEquals(5,WebCrawler.getVisitedWebsites().size());
+        Assertions.assertEquals(42,WebCrawler.getVisitedWebsites().size());
     }
 }
 
