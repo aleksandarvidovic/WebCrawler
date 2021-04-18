@@ -15,7 +15,7 @@ public class Main {
         urlInput.close();
 
         WebCrawler webCrawler = new WebCrawler(websiteUrl);
-        webCrawler.crawlWebsite(1);
+        webCrawler.crawlWebsite(2);
 
     }
 }

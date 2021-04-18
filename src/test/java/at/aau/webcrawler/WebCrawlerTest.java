@@ -134,11 +134,12 @@ public class WebCrawlerTest {
 
         Assertions.assertEquals(expectedOutput, outContent.toString());
     }
+
     @Test
-    public void crawlingWithDepth1(){
+    public void crawlingWithDepth1() {
         webCrawler = new WebCrawler("https://www.htl-villach.at/schule/anmeldung");
         webCrawler.crawlWebsite(1);
-        Assertions.assertEquals(42,WebCrawler.getVisitedWebsites().size());
+        Assertions.assertEquals(42, WebCrawler.getVisitedWebsites().size());
     }
 }
 

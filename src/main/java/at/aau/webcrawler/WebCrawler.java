@@ -16,12 +16,12 @@ public class WebCrawler {
     private Document document;
     private String connectionMessage;
 
-    WebCrawler(String websiteUrl){
+    WebCrawler(String websiteUrl) {
         this.websiteUrl = websiteUrl;
         urlsOnWebsite = new ArrayList<>();
     }
 
-    public boolean connectToWebsite(){
+    public boolean connectToWebsite() {
         try {
             document = Jsoup.connect(websiteUrl).get();
         } catch (Exception e) {
@@ -36,24 +36,24 @@ public class WebCrawler {
         return wordsOnWebsite.length;
     }
 
-    public int countImagesOnWebsite(){
+    public int countImagesOnWebsite() {
         Elements images = document.getElementsByTag("img");
         return images.size();
     }
 
-    public int countVideosOnWebsite(){
+    public int countVideosOnWebsite() {
         Elements videos = document.select("[type^=video], .video, video");
         return videos.size();
     }
 
-    public void printInformationAboutWebsite(){
+    public void printInformationAboutWebsite() {
         System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         System.out.println("Die Website [" + websiteUrl + "] enthält:");
         System.out.println(countWordsOnWebsite() + " Wörter, " + urlsOnWebsite.size() + " Links, " + countImagesOnWebsite() + " Bilder und " + countVideosOnWebsite() + " Videos.");
         System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
     }
 
-    public void scrapeURLSFromWebsite(){
+    public void scrapeURLSFromWebsite() {
         Elements links = document.select("a[href]");
         for (Element link : links) {
             urlsOnWebsite.add(link.absUrl("href"));
@@ -70,13 +70,13 @@ public class WebCrawler {
         printInformationAboutWebsite();
 
         for (String link : urlsOnWebsite) {
-            if (!visitedWebsites.contains(link)&& recursionDepth>0) {
+            if (!visitedWebsites.contains(link) && recursionDepth > 0) {
                 new WebCrawler(link).crawlWebsite(recursionDepth - 1);
             }
         }
     }
 
-    public ArrayList<String> getUrlsOnWebsite(){
+    public ArrayList<String> getUrlsOnWebsite() {
         return urlsOnWebsite;
     }
 
@@ -84,7 +84,7 @@ public class WebCrawler {
         return visitedWebsites;
     }
 
-    public static void resetVisitedWebsites(){
+    public static void resetVisitedWebsites() {
         visitedWebsites = new HashSet<>();
     }
 }
