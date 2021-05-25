@@ -6,16 +6,38 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.print("Bitte geben Sie die URL der Website ein: ");
-
         Scanner urlInput = new Scanner(System.in);
 
-        String websiteUrl = urlInput.nextLine();
+        System.out.print("Bitte geben Sie die URL der ersten Website ein: ");
+        String firstWebsiteUrl = urlInput.nextLine();
+        WebCrawler webCrawlerOne = new WebCrawler(firstWebsiteUrl);
+
+        System.out.print("Bitte geben Sie die URL der zweiten Website ein: ");
+        String secondWebsiteUrl = urlInput.nextLine();
+        WebCrawler webCrawlerTwo = new WebCrawler(secondWebsiteUrl);
+
+        System.out.print("Bitte geben Sie die URL der dritten Website ein: ");
+        String thirdWebsiteUrl = urlInput.nextLine();
+        WebCrawler webCrawlerThree = new WebCrawler(thirdWebsiteUrl);
 
         urlInput.close();
 
-        WebCrawler webCrawler = new WebCrawler(websiteUrl);
-        webCrawler.crawlWebsite(2);
+        new Thread(() -> {
 
+            webCrawlerOne.crawlWebsite(1);
+
+        }).start();
+
+        new Thread(() -> {
+
+            webCrawlerTwo.crawlWebsite(1);
+
+        }).start();
+
+        new Thread(() -> {
+
+            webCrawlerThree.crawlWebsite(1);
+
+        }).start();
     }
 }
