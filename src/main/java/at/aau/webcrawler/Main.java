@@ -6,41 +6,32 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        ArrayList<String> websites = new ArrayList<>();
 
-        Scanner urlInput = new Scanner(System.in);
-        String website;
-        ArrayList<String> webistesList = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        String userInput;
 
-        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.println("Bitte geben Sie die URLs der Websites ein.");
-        System.out.println("Um die Eingabe zu beenden, geben Sie q ein.");
-        System.out.println();
+        System.out.println("--------------------------------------------"
+                + "\nPlease enter your URLS."
+                + "\nIf you are done enter d."
+                + "\n--------------------------------------------"
+                + "\nInput: ");
 
-        while (true){
+        while (true) {
 
-            System.out.print("Eingabe: ");
-            website = urlInput.nextLine();
+            userInput = scanner.nextLine();
+            if(userInput.equals("d")) break;
+            websites.add(userInput);
 
-            if(website.equals("q")){
-
-                System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-                break;
-            }
-
-            webistesList.add(website);
         }
 
-        if(webistesList.isEmpty()){
+        System.out.println("--------------------------------------------"
+                + "\nPlease enter a recursion depth");
 
-            urlInput.close();
-            System.out.println("Sie haben keine URLs eingegeben.");
-        }
-        else{
+        int recursionDepth = scanner.nextInt();
+        scanner.close();
 
-            System.out.print("Geben Sie recursion depth ein: ");
-            int recursionDepth = urlInput.nextInt();
-            urlInput.close();
-            new WebCrawler(webistesList).crawlAllWebsitesFromList(recursionDepth);
-        }
+        new WebCrawler(websites).crawlAllWebsitesFromList(recursionDepth);
+
     }
 }
