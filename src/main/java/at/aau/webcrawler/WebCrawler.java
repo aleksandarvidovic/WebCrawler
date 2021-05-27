@@ -15,10 +15,16 @@ public class WebCrawler {
     private static HashSet<String> visitedWebsites = new HashSet<>();
     private Document document;
     private String connectionMessage;
+    private ArrayList<String> websitesList;
 
     WebCrawler(String websiteUrl) {
         this.websiteUrl = websiteUrl;
         urlsOnWebsite = new ArrayList<>();
+    }
+
+    WebCrawler(ArrayList<String> websitesList) {
+
+        this.websitesList = websitesList;
     }
 
     public boolean connectToWebsite() {
@@ -74,6 +80,12 @@ public class WebCrawler {
                 new WebCrawler(link).crawlWebsite(recursionDepth - 1);
             }
         }
+    }
+
+    public void crawlAllWebsitesFromList(int recursionDepth){
+
+        for(String website : websitesList)
+            new Thread(() -> new WebCrawler(website).crawlWebsite(recursionDepth)).start();
     }
 
     public ArrayList<String> getUrlsOnWebsite() {

@@ -1,5 +1,6 @@
 package at.aau.webcrawler;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -7,37 +8,39 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner urlInput = new Scanner(System.in);
+        String website;
+        ArrayList<String> webistesList = new ArrayList<>();
 
-        System.out.print("Bitte geben Sie die URL der ersten Website ein: ");
-        String firstWebsiteUrl = urlInput.nextLine();
-        WebCrawler webCrawlerOne = new WebCrawler(firstWebsiteUrl);
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("Bitte geben Sie die URLs der Websites ein.");
+        System.out.println("Um die Eingabe zu beenden, geben Sie q ein.");
+        System.out.println();
 
-        System.out.print("Bitte geben Sie die URL der zweiten Website ein: ");
-        String secondWebsiteUrl = urlInput.nextLine();
-        WebCrawler webCrawlerTwo = new WebCrawler(secondWebsiteUrl);
+        while (true){
 
-        System.out.print("Bitte geben Sie die URL der dritten Website ein: ");
-        String thirdWebsiteUrl = urlInput.nextLine();
-        WebCrawler webCrawlerThree = new WebCrawler(thirdWebsiteUrl);
+            System.out.print("Eingabe: ");
+            website = urlInput.nextLine();
 
-        urlInput.close();
+            if(website.equals("q")){
 
-        new Thread(() -> {
+                System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                break;
+            }
 
-            webCrawlerOne.crawlWebsite(1);
+            webistesList.add(website);
+        }
 
-        }).start();
+        if(webistesList.isEmpty()){
 
-        new Thread(() -> {
+            urlInput.close();
+            System.out.println("Sie haben keine URLs eingegeben.");
+        }
+        else{
 
-            webCrawlerTwo.crawlWebsite(1);
-
-        }).start();
-
-        new Thread(() -> {
-
-            webCrawlerThree.crawlWebsite(1);
-
-        }).start();
+            System.out.print("Geben Sie recursion depth ein: ");
+            int recursionDepth = urlInput.nextInt();
+            urlInput.close();
+            new WebCrawler(webistesList).crawlAllWebsitesFromList(recursionDepth);
+        }
     }
 }
