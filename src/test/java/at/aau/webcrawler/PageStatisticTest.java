@@ -56,7 +56,11 @@ public class PageStatisticTest {
     @Test
     public void isSummaryCorrect(){
         String summary = pageStatistic.getSummary();
-        //String expectedOutput =
-        //Assertions.assertEquals(summary, );
+        String expectedOutput = "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+                + "\nThe website [" + document.baseUri() + "] contains:"
+                + "\n" + pageStatistic.getWordCount() + " words, " + pageStatistic.getURLS().size()
+                + " links, " + pageStatistic.getImageCount() + " words and " + pageStatistic.getVideoCount() + " videos."
+                + "\n-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
+        Assertions.assertEquals(expectedOutput, summary);
     }
 }

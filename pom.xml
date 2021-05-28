@@ -58,6 +58,8 @@
                 <configuration>
                 <targetClasses>
                     <param>at.aau.webcrawler.WebCrawler</param>
+                    <param>at.aau.webcrawler.PageStatistic</param>
+                    <param>at.aau.webcrawler.CrawlReport</param>
                 </targetClasses>
                 </configuration>
                 <executions>
