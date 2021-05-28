@@ -1,2 +1,4 @@
-package at.aau.webcrawler;public class CrawlReportTest {
+package at.aau.webcrawler;
+
+public class CrawlReportTest {
 }

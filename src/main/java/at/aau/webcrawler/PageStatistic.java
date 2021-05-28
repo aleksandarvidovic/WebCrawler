@@ -13,12 +13,12 @@ public class PageStatistic {
         this.document = document;
     }
 
-    public int countWords() {
+    public int getWordCount() {
         String[] wordsOnWebsite = document.text().split(" ");
         return wordsOnWebsite.length;
     }
 
-    public int countImages() {
+    public int getImageCount() {
         Elements images = document.getElementsByTag("img");
         return images.size();
     }
@@ -33,7 +33,7 @@ public class PageStatistic {
         return urlsOnWebsite;
     }
 
-    public int countVideos() {
+    public int getVideoCount() {
         Elements videos = document.select("[type^=video], .video, video");
         return videos.size();
     }
@@ -42,7 +42,7 @@ public class PageStatistic {
         String statistic =
                 "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
                         + "\nThe website [" + document.baseUri() + "] contains:"
-                        + "\n" + countWords() + " words, " + getURLS().size() + " links, " + countImages() + " words and " + countVideos() + " videos."
+                        + "\n" + getWordCount() + " words, " + getURLS().size() + " links, " + getImageCount() + " words and " + getVideoCount() + " videos."
                         + "\n-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
 
         return statistic;

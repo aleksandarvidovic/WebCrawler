@@ -49,7 +49,7 @@ public class CrawlReport {
         }
     }
 
-    public synchronized void appendPageStatistics(PageStatistic websiteStats) {
+    public void appendPageStatistics(PageStatistic websiteStats) {
         try {
             bufferedWriter.write(websiteStats.getSummary());
             bufferedWriter.flush();
@@ -59,7 +59,7 @@ public class CrawlReport {
 
     }
 
-    public synchronized void appendBrokenPageInformation(String url) {
+    public void appendBrokenPageInformation(String url) {
         try {
             bufferedWriter.write(
                     "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -72,7 +72,7 @@ public class CrawlReport {
         }
     }
 
-    public synchronized void appendInvalidUrlInformation(String url) {
+    public void appendInvalidUrlInformation(String url) {
         try {
             bufferedWriter.write(
                     "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"

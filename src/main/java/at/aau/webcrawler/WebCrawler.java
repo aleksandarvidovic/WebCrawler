@@ -29,9 +29,13 @@ public class WebCrawler {
         if (document != null) {
             PageStatistic pageStatistic = new PageStatistic(document);
             crawlReport.appendPageStatistics(pageStatistic);
-            for (String link : pageStatistic.getURLS()) {
-                if (!visitedWebsites.contains(link)) crawlWebsite(link, recursionDepth - 1);
-            }
+            crawlUrlsRecursively(pageStatistic, recursionDepth-1);
+        }
+    }
+
+    public void crawlUrlsRecursively(PageStatistic pageStatistic, int recursionDepth){
+        for (String link : pageStatistic.getURLS()) {
+            if (!visitedWebsites.contains(link)) crawlWebsite(link, recursionDepth);
         }
     }
 
