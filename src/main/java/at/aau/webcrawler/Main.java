@@ -26,12 +26,13 @@ public class Main {
         }
 
         System.out.println("--------------------------------------------"
-                + "\nPlease enter a recursion depth");
+                + "\nPlease enter a recursion depth.");
 
         int recursionDepth = scanner.nextInt();
         scanner.close();
 
-        new WebCrawler(websites).crawlAllWebsitesFromList(recursionDepth);
+        new WebCrawler(websites).setupThreadsForCrawl(recursionDepth);
+        CrawlReport.getInstance().createReportAsFile();
 
     }
 }

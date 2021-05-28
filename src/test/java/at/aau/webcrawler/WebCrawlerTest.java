@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 
 
 public class WebCrawlerTest {
-    Document document;
+    /*Document document;
     WebCrawler webCrawler;
     Connection connection = mock(Connection.class);
 
@@ -140,7 +140,7 @@ public class WebCrawlerTest {
         webCrawler = new WebCrawler("https://www.htl-villach.at/schule/anmeldung");
         webCrawler.crawlWebsite(1);
         Assertions.assertEquals(42, WebCrawler.getVisitedWebsites().size());
-    }
+    }*/
 }
 
 

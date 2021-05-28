@@ -2,90 +2,55 @@ package at.aau.webcrawler;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
 public class WebCrawler {
 
     private ArrayList<String> urlsOnWebsite;
-    private String websiteUrl;
     private static HashSet<String> visitedWebsites = new HashSet<>();
-    private Document document;
-    private String connectionMessage;
-    private ArrayList<String> websitesList;
+    private ArrayList<String> urlsToCrawl;
+    private CrawlReport crawlReport;
 
-    WebCrawler(String websiteUrl) {
-        this.websiteUrl = websiteUrl;
-        urlsOnWebsite = new ArrayList<>();
+    WebCrawler(ArrayList<String> urlsToCrawl) {
+        this.urlsToCrawl = urlsToCrawl;
+        this.urlsOnWebsite = new ArrayList<>();
+        this.crawlReport = CrawlReport.getInstance();
     }
 
-    WebCrawler(ArrayList<String> websitesList) {
-
-        this.websitesList = websitesList;
-    }
-
-    public boolean connectToWebsite() {
-        try {
-            document = Jsoup.connect(websiteUrl).get();
-        } catch (Exception e) {
-            connectionMessage = e.getMessage();
-        }
-        visitedWebsites.add(websiteUrl);
-        return document != null;
-    }
-
-    public int countWordsOnWebsite() {
-        String[] wordsOnWebsite = document.text().split(" ");
-        return wordsOnWebsite.length;
-    }
-
-    public int countImagesOnWebsite() {
-        Elements images = document.getElementsByTag("img");
-        return images.size();
-    }
-
-    public int countVideosOnWebsite() {
-        Elements videos = document.select("[type^=video], .video, video");
-        return videos.size();
-    }
-
-    public void printInformationAboutWebsite() {
-        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.println("Die Website [" + websiteUrl + "] enthält:");
-        System.out.println(countWordsOnWebsite() + " Wörter, " + urlsOnWebsite.size() + " Links, " + countImagesOnWebsite() + " Bilder und " + countVideosOnWebsite() + " Videos.");
-        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-    }
-
-    public void scrapeURLSFromWebsite() {
-        Elements links = document.select("a[href]");
-        for (Element link : links) {
-            urlsOnWebsite.add(link.absUrl("href"));
-        }
-    }
-
-    public void crawlWebsite(int recursionDepth) {
+    public void crawlWebsite(String url, int recursionDepth) {
         if (recursionDepth < 0) return;
-        if (!connectToWebsite()) {
-            System.out.print("Verbindung zu dieser URL nicht möglich: " + websiteUrl + " -> " + connectionMessage + "\n");
-            return;
-        }
-        scrapeURLSFromWebsite();
-        printInformationAboutWebsite();
+        visitedWebsites.add(url);
 
-        for (String link : urlsOnWebsite) {
-            if (!visitedWebsites.contains(link) && recursionDepth > 0) {
-                new WebCrawler(link).crawlWebsite(recursionDepth - 1);
+        Document document = getDocument(url);
+
+        if (document != null) {
+            PageStatistic pageStatistic = new PageStatistic(document);
+            crawlReport.appendPageStatistics(pageStatistic);
+            for (String link : pageStatistic.getURLS()) {
+                if (!visitedWebsites.contains(link)) crawlWebsite(link, recursionDepth - 1);
             }
         }
     }
 
-    public void crawlAllWebsitesFromList(int recursionDepth){
+    public void setupThreadsForCrawl(int recursionDepth) {
+        for (String url : urlsToCrawl)
+            new Thread(() -> crawlWebsite(url, recursionDepth)).start();
+    }
 
-        for(String website : websitesList)
-            new Thread(() -> new WebCrawler(website).crawlWebsite(recursionDepth)).start();
+    public Document getDocument(String url) {
+        Document document = null;
+
+        try {
+            document = Jsoup.connect(url).get();
+        } catch (IOException e) {
+            crawlReport.appendBrokenPageInformation(url);
+        } catch(IllegalArgumentException e){
+            crawlReport.appendInvalidUrlInformation(url);
+        }
+        return document;
     }
 
     public ArrayList<String> getUrlsOnWebsite() {
