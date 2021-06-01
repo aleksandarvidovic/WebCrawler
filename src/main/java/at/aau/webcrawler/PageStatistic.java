@@ -42,7 +42,7 @@ public class PageStatistic {
         String statistic =
                 "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
                         + "\nThe website [" + document.baseUri() + "] contains:"
-                        + "\n" + getWordCount() + " words, " + getURLS().size() + " links, " + getImageCount() + " words and " + getVideoCount() + " videos."
+                        + "\n" + getWordCount() + " words, " + getURLS().size() + " links, " + getImageCount() + " images and " + getVideoCount() + " videos."
                         + "\n-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
 
         return statistic;
