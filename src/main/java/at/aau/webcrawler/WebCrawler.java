@@ -41,7 +41,7 @@ public class WebCrawler {
 
     public void setupThreadsForCrawl(int recursionDepth) {
         for (String url : urlsToCrawl)
-            new Thread(() -> crawlWebsite(url, recursionDepth)).start();
+                new Thread(() -> crawlWebsite(url, recursionDepth)).start();
     }
 
     public Document getDocument(String url) {

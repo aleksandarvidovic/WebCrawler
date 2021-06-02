@@ -1,6 +1,7 @@
 package at.aau.webcrawler;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -27,14 +28,23 @@ public class Main {
 
         System.out.println("--------------------------------------------"
                 + "\nPlease enter a recursion depth.");
-
-        int recursionDepth = scanner.nextInt();
+        int recursionDepth;
+        try{
+            recursionDepth = scanner.nextInt();
+            if(recursionDepth < 1 || recursionDepth > 10){
+                System.out.println("Recursion depth has to be between 1 and 10");
+                return;
+            }
+        }
+        catch (InputMismatchException e){
+            System.out.println("Wrong input of recursion depth -> " + e.getMessage());
+            return;
+        }
         scanner.close();
 
         System.out.println("fetching information...");
 
         new WebCrawler(websites).setupThreadsForCrawl(recursionDepth);
         CrawlReport.getInstance().createReportAsFile();
-
     }
 }
