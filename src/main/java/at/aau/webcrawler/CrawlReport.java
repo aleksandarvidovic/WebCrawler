@@ -1,9 +1,6 @@
 package at.aau.webcrawler;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.logging.Logger;
 
 public class CrawlReport {
@@ -33,17 +30,14 @@ public class CrawlReport {
         return CrawlReport.instance;
     }
 
-    public void createReportAsFile() {
-        try {
-            report.createNewFile();
-        } catch (IOException e) {
-            logger.info("Creating report file failed. "+e.getMessage());
-        }
+    public static void destroy(){
+        instance = null;
     }
+
 
     public void clearReport() {
         try {
-            new FileWriter(report.getPath()).close();
+            new FileWriter(report.getPath());
         } catch (IOException e) {
             logger.info("Clearing the report failed. "+e.getMessage());
         }
@@ -54,7 +48,7 @@ public class CrawlReport {
             bufferedWriter.write(websiteStats.getSummary());
             bufferedWriter.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.info("Appending statistic to file failed. "+e.getMessage());
         }
 
     }

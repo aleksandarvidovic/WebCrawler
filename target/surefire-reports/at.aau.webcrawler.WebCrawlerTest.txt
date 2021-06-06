@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: at.aau.webcrawler.CrawlReportTest
+Test set: at.aau.webcrawler.WebCrawlerTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.18 s - in at.aau.webcrawler.CrawlReportTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.248 s - in at.aau.webcrawler.WebCrawlerTest

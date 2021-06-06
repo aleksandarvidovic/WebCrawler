@@ -31,8 +31,8 @@ public class Main {
         int recursionDepth;
         try{
             recursionDepth = scanner.nextInt();
-            if(recursionDepth < 1 || recursionDepth > 10){
-                System.out.println("Recursion depth has to be between 1 and 10");
+            if(recursionDepth < 0 || recursionDepth > 10){
+                System.out.println("Recursion depth has to be between 0 and 10");
                 return;
             }
         }
@@ -44,7 +44,7 @@ public class Main {
 
         System.out.println("fetching information...");
 
-        new WebCrawler(websites).setupThreadsForCrawl(recursionDepth);
-        CrawlReport.getInstance().createReportAsFile();
+        new WebCrawler(websites).startThreadedCrawl(recursionDepth);
+
     }
 }

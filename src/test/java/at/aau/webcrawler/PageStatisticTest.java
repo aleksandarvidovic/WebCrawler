@@ -59,7 +59,7 @@ public class PageStatisticTest {
         String expectedOutput = "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
                 + "\nThe website [" + document.baseUri() + "] contains:"
                 + "\n" + pageStatistic.getWordCount() + " words, " + pageStatistic.getURLS().size()
-                + " links, " + pageStatistic.getImageCount() + " words and " + pageStatistic.getVideoCount() + " videos."
+                + " links, " + pageStatistic.getImageCount() + " images and " + pageStatistic.getVideoCount() + " videos."
                 + "\n-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
         Assertions.assertEquals(expectedOutput, summary);
     }

@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="DE"/>
     <property name="sun.boot.library.path" value="C:\Users\43664\.jdks\openjdk-15.0.1\bin"/>
-    <property name="sun.java.command" value="C:\Users\43664\AppData\Local\Temp\surefire18413574763125155796\surefirebooter1027549705441108155.jar C:\Users\43664\AppData\Local\Temp\surefire18413574763125155796 2021-05-28T14-21-45_813-jvmRun1 surefire14131615223129692526tmp surefire_013754566512051739410tmp"/>
+    <property name="sun.java.command" value="C:\Users\43664\AppData\Local\Temp\surefire4334590820222668040\surefirebooter13638137696032383236.jar C:\Users\43664\AppData\Local\Temp\surefire4334590820222668040 2021-06-06T03-40-47_222-jvmRun1 surefire5521052309550247674tmp surefire_02002356874315652818tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\43664\Desktop\Uni\4.Semester\Clean Code\Abgabe_1\WebCrawler\WebCrawler\target\test-classes;C:\Users\43664\Desktop\Uni\4.Semester\Clean Code\Abgabe_1\WebCrawler\WebCrawler\target\classes;C:\Users\43664\.m2\repository\org\jsoup\jsoup\1.13.1\jsoup-1.13.1.jar;C:\Users\43664\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.1.0\junit-jupiter-api-5.1.0.jar;C:\Users\43664\.m2\repository\org\apiguardian\apiguardian-api\1.0.0\apiguardian-api-1.0.0.jar;C:\Users\43664\.m2\repository\org\opentest4j\opentest4j\1.0.0\opentest4j-1.0.0.jar;C:\Users\43664\.m2\repository\org\junit\platform\junit-platform-commons\1.1.0\junit-platform-commons-1.1.0.jar;C:\Users\43664\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.1.0\junit-jupiter-engine-5.1.0.jar;C:\Users\43664\.m2\repository\org\junit\platform\junit-platform-engine\1.1.0\junit-platform-engine-1.1.0.jar;C:\Users\43664\.m2\repository\org\mockito\mockito-core\3.7.0\mockito-core-3.7.0.jar;C:\Users\43664\.m2\repository\net\bytebuddy\byte-buddy\1.10.19\byte-buddy-1.10.19.jar;C:\Users\43664\.m2\repository\net\bytebuddy\byte-buddy-agent\1.10.19\byte-buddy-agent-1.10.19.jar;C:\Users\43664\.m2\repository\org\objenesis\objenesis\3.1\objenesis-3.1.jar;C:\Users\43664\.m2\repository\org\mockito\mockito-inline\2.7.21\mockito-inline-2.7.21.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\43664\AppData\Local\Temp\surefire18413574763125155796\surefirebooter1027549705441108155.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\43664\AppData\Local\Temp\surefire4334590820222668040\surefirebooter13638137696032383236.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="15.0.1+9-18"/>
@@ -56,9 +56,9 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="59.0"/>
   </properties>
-  <testcase name="videoCount" classname="at.aau.webcrawler.PageStatisticTest" time="0.001"/>
+  <testcase name="videoCount" classname="at.aau.webcrawler.PageStatisticTest" time="0"/>
   <testcase name="imageCount" classname="at.aau.webcrawler.PageStatisticTest" time="0.006"/>
   <testcase name="urlsFoundOnPage" classname="at.aau.webcrawler.PageStatisticTest" time="0.005"/>
-  <testcase name="isSummaryCorrect" classname="at.aau.webcrawler.PageStatisticTest" time="0.007"/>
+  <testcase name="isSummaryCorrect" classname="at.aau.webcrawler.PageStatisticTest" time="0.009"/>
   <testcase name="wordCount" classname="at.aau.webcrawler.PageStatisticTest" time="0.004"/>
 </testsuite>

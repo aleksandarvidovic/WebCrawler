@@ -13,7 +13,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.attribute.BasicFileAttributes;
+
+
 
 public class CrawlReportTest {
     CrawlReport crawlReport = CrawlReport.getInstance();
@@ -23,6 +24,13 @@ public class CrawlReportTest {
     public void setUp() throws IOException {
         crawlReport.clearReport();
         report = new File("target/generated-sources/CrawlResults.txt");
+    }
+
+
+    @Test
+    public void singletonConstructor(){
+        CrawlReport.destroy();
+        Assertions.assertNotNull(CrawlReport.getInstance());
     }
 
     @Test
@@ -46,6 +54,22 @@ public class CrawlReportTest {
     }
 
     @Test
+    public void resetReportWhenNewInstance() throws IOException {
+        String reportContent = Files.readString(Path.of(report.getPath()),StandardCharsets.UTF_8);
+        Assertions.assertEquals("", reportContent);
+
+        crawlReport.appendBrokenPageInformation("noUrl");
+        reportContent =  Files.readString(Path.of(report.getPath()),StandardCharsets.UTF_8);
+        Assertions.assertNotEquals("",reportContent);
+
+        CrawlReport.destroy();
+        crawlReport = CrawlReport.getInstance();
+        reportContent = Files.readString(Path.of(report.getPath()),StandardCharsets.UTF_8);
+        Assertions.assertEquals("", reportContent);
+
+    }
+
+    @Test
     public void appendValidStatistic() throws IOException {
         File input = new File("src/test/java/at/aau/webcrawler/TestDoc.html");
         Document document= Jsoup.parse(input, "UTF-8","https://www.htl-villach.at/");
@@ -57,7 +81,7 @@ public class CrawlReportTest {
         String expectedOutput ="-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
                 + "\nThe website [" + document.baseUri() + "] contains:"
                 + "\n" + pageStatistic.getWordCount() + " words, " + pageStatistic.getURLS().size()
-                + " links, " + pageStatistic.getImageCount() + " words and " + pageStatistic.getVideoCount() + " videos."
+                + " links, " + pageStatistic.getImageCount() + " images and " + pageStatistic.getVideoCount() + " videos."
                 + "\n-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
 
         Assertions.assertEquals(expectedOutput,reportContent);

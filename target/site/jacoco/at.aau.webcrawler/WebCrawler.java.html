@@ -9,64 +9,55 @@ import java.util.HashSet;
 
 public class WebCrawler {
 
-    private ArrayList&lt;String&gt; urlsOnWebsite;
-<span class="nc" id="L13">    private static HashSet&lt;String&gt; visitedWebsites = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L12">    private static HashSet&lt;String&gt; visitedWebsites = new HashSet&lt;&gt;();</span>
     private ArrayList&lt;String&gt; urlsToCrawl;
     private CrawlReport crawlReport;
 
-<span class="nc" id="L17">    WebCrawler(ArrayList&lt;String&gt; urlsToCrawl) {</span>
-<span class="nc" id="L18">        this.urlsToCrawl = urlsToCrawl;</span>
-<span class="nc" id="L19">        this.urlsOnWebsite = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L20">        this.crawlReport = CrawlReport.getInstance();</span>
-<span class="nc" id="L21">    }</span>
+<span class="fc" id="L16">    WebCrawler(ArrayList&lt;String&gt; urlsToCrawl) {</span>
+<span class="fc" id="L17">        this.urlsToCrawl = urlsToCrawl;</span>
+<span class="fc" id="L18">        this.crawlReport = CrawlReport.getInstance();</span>
+<span class="fc" id="L19">    }</span>
 
     public void crawlWebsite(String url, int recursionDepth) {
-<span class="nc bnc" id="L24" title="All 2 branches missed.">        if (recursionDepth &lt; 0) return;</span>
-<span class="nc" id="L25">        visitedWebsites.add(url);</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        if (recursionDepth &lt; 0) return;</span>
 
-<span class="nc" id="L27">        Document document = getDocument(url);</span>
+<span class="fc" id="L24">        Document document = getDocument(url);</span>
 
-<span class="nc bnc" id="L29" title="All 2 branches missed.">        if (document != null) {</span>
-<span class="nc" id="L30">            PageStatistic pageStatistic = new PageStatistic(document);</span>
-<span class="nc" id="L31">            crawlReport.appendPageStatistics(pageStatistic);</span>
-<span class="nc" id="L32">            crawlUrlsRecursively(pageStatistic, recursionDepth-1);</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (document != null) {</span>
+<span class="fc" id="L27">            visitedWebsites.add(url);</span>
+<span class="fc" id="L28">            PageStatistic pageStatistic = new PageStatistic(document);</span>
+<span class="fc" id="L29">            crawlReport.appendPageStatistics(pageStatistic);</span>
+<span class="fc" id="L30">            crawlUrlsRecursively(pageStatistic, recursionDepth-1);</span>
         }
-<span class="nc" id="L34">    }</span>
+<span class="fc" id="L32">    }</span>
 
     public void crawlUrlsRecursively(PageStatistic pageStatistic, int recursionDepth){
-<span class="nc bnc" id="L37" title="All 2 branches missed.">        for (String link : pageStatistic.getURLS()) {</span>
-<span class="nc bnc" id="L38" title="All 2 branches missed.">            if (!visitedWebsites.contains(link)) crawlWebsite(link, recursionDepth);</span>
-<span class="nc" id="L39">        }</span>
-<span class="nc" id="L40">    }</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        for (String link : pageStatistic.getURLS()) {</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">            if (!visitedWebsites.contains(link)) crawlWebsite(link, recursionDepth);</span>
+<span class="fc" id="L37">        }</span>
+<span class="fc" id="L38">    }</span>
 
-    public void setupThreadsForCrawl(int recursionDepth) {
-<span class="nc bnc" id="L43" title="All 2 branches missed.">        for (String url : urlsToCrawl)</span>
-<span class="nc" id="L44">            new Thread(() -&gt; crawlWebsite(url, recursionDepth)).start();</span>
-<span class="nc" id="L45">    }</span>
+    public void startThreadedCrawl(int recursionDepth) {
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        for (String url : urlsToCrawl)</span>
+<span class="nc" id="L42">                new Thread(() -&gt; crawlWebsite(url, recursionDepth)).start();</span>
+<span class="nc" id="L43">    }</span>
 
     public Document getDocument(String url) {
-<span class="nc" id="L48">        Document document = null;</span>
+<span class="fc" id="L46">        Document document = null;</span>
 
         try {
-<span class="nc" id="L51">            document = Jsoup.connect(url).get();</span>
-<span class="nc" id="L52">        } catch (IOException e) {</span>
-<span class="nc" id="L53">            crawlReport.appendBrokenPageInformation(url);</span>
-<span class="nc" id="L54">        } catch(IllegalArgumentException e){</span>
-<span class="nc" id="L55">            crawlReport.appendInvalidUrlInformation(url);</span>
-<span class="nc" id="L56">        }</span>
-<span class="nc" id="L57">        return document;</span>
-    }
-
-    public ArrayList&lt;String&gt; getUrlsOnWebsite() {
-<span class="nc" id="L61">        return urlsOnWebsite;</span>
+<span class="fc" id="L49">            document = Jsoup.connect(url).get();</span>
+<span class="fc" id="L50">        } catch (IOException e) {</span>
+<span class="fc" id="L51">            crawlReport.appendBrokenPageInformation(url);</span>
+<span class="fc" id="L52">        } catch(IllegalArgumentException e){</span>
+<span class="fc" id="L53">            crawlReport.appendInvalidUrlInformation(url);</span>
+<span class="fc" id="L54">        }</span>
+<span class="fc" id="L55">        return document;</span>
     }
 
     public static HashSet&lt;String&gt; getVisitedWebsites() {
-<span class="nc" id="L65">        return visitedWebsites;</span>
+<span class="fc" id="L59">        return visitedWebsites;</span>
     }
 
-    public static void resetVisitedWebsites() {
-<span class="nc" id="L69">        visitedWebsites = new HashSet&lt;&gt;();</span>
-<span class="nc" id="L70">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
